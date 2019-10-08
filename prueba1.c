@@ -2,14 +2,14 @@
 #include <math.h>
 
 /*Meta-Constantes*/
-#define N 8
-#define NL 2
-#define Nt 20000
-#define L 10.0
+#define N 512
+#define NL 8
+#define Nt 2000
+#define L 40
 
 /*Declaracion de variables*/
 double T = 300.0;
-double dt = 0.0001; /*en picosegundos*/
+double dt = 0.001; /*en picosegundos*/
 double mass = 39.948; /*en umas*/
 double rx[N], ry[N], rz[N];
 double vx[N], vy[N], vz[N];
@@ -87,6 +87,14 @@ int main(void)
             Ecin = Ecin + 0.5 * mass * (vx[i]*vx[i] + vy[i]*vy[i] + vz[i]*vz[i]);
             Epot = Epot + 0.5 * Ui;
         }
+
+        if (newrx[i]< 0.0) newrx[i] = newrx[i] + L ;
+        if (newrx[i]> L) newrx[i] = newrx[i] - L ;
+        if (newry[i]< 0.0) newry[i] = newry[i] + L ;
+        if (newry[i]> L) newry[i] = newry[i] - L ;
+        if (newrz[i]< 0.0) newrz[i] = newrz[i] + L ;
+        if (newrz[i]> L) newrz[i] = newrz[i] - L ;
+
         fprintf (fp,"%i,%e,%e,%e\n",it,Ecin,Epot,Ecin+Epot);
         /*printf ("%i,%e,%e,%e\n",it,Ecin,Epot,Ecin+Epot);*/
         /*Actualizar ahora sí las variables*/
