@@ -2,10 +2,10 @@
 #include <math.h>
 
 /*Meta-Constantes*/
-#define N 512
-#define NL 8
-#define Nt 2000
-#define L 40
+#define N 8
+#define NL 2
+#define Nt 80000
+#define L 10
 
 /*Declaracion de variables*/
 double T = 300.0;
@@ -18,6 +18,9 @@ double vx[N], vy[N], vz[N];
 double sigma = 3.4;/*Unidades de longitud en Angstroms*/
 double epsilon = 1.65E-21 / 1.66E-23; /*en joules, pero no es la unidad que necesitamos, la que queremos seria dividir entre 1.66x10^-23*/
 
+/*Constante de boltzman*/
+double KB = 1.3806E-23/1.66E-23;
+
 /*Declaracion de funciones*/
 double Upot(double r);
 void calculaFij(double r, int i, int j, double Fij[], int ipx, int ipy, int ipz);
@@ -29,13 +32,16 @@ int main(void)
     FILE * fp;
     FILE * fpos;
 
-    int i, j, it, ipx, ipy, ipz;
-    double Fij[3], Fi[3], Ecin, tao, Ui, r, Epot;
+    int i, j, it, ipx, ipy, ipz, tao;
+    double Fij[3], Fi[3], Ecin, Ui, r, Epot;
+    double T_t, lambda, doubletao;
     double newrx[N],newry[N],newrz[N];
     double newvx[N],newvy[N],newvz[N];
-    tao = 100.0 * dt;
+    tao = 100.0;
+    doubletao = (double)tao*dt;
     iniciales();
-    fp = fopen ("./temp2.txt","w");
+    printf("%e,%e,%e,%e",rx[0], rx[1], rx[2], rx[3]);
+    fp = fopen ("./temp2_8p.txt","w");
     fpos = fopen ("./pos.txt","w");
     for (it=1; it<Nt; it++)
     {
@@ -87,7 +93,16 @@ int main(void)
             Ecin = Ecin + 0.5 * mass * (vx[i]*vx[i] + vy[i]*vy[i] + vz[i]*vz[i]);
             Epot = Epot + 0.5 * Ui;
         }
-
+        /*Calculo*/
+        if (it%tao==0){
+            T_t = 2.0*Ecin/(3.0*N*KB);
+            lambda = sqrt(1.0+ dt/doubletao*(T/T_t-1.0));
+            for (i=0; i<N; i++){
+                newvx[i] = newvx[i]*lambda;
+                newvy[i] = newvy[i]*lambda;
+                newvz[i] = newvz[i]*lambda;
+            }
+        }
         if (newrx[i]< 0.0) newrx[i] = newrx[i] + L ;
         if (newrx[i]> L) newrx[i] = newrx[i] - L ;
         if (newry[i]< 0.0) newry[i] = newry[i] + L ;
