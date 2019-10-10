@@ -2,10 +2,10 @@
 #include <math.h>
 
 /*Meta-Constantes*/
-#define N 8
-#define NL 2
-#define Nt 80000
-#define L 10
+#define N 64
+#define NL 4
+#define Nt 10000
+#define L 20
 
 /*Declaracion de variables*/
 double T = 300.0;
@@ -37,7 +37,7 @@ int main(void)
     double T_t, lambda, doubletao;
     double newrx[N],newry[N],newrz[N];
     double newvx[N],newvy[N],newvz[N];
-    tao = 100.0;
+    tao = 80.0;
     doubletao = (double)tao*dt;
     iniciales();
     printf("%e,%e,%e,%e",rx[0], rx[1], rx[2], rx[3]);
