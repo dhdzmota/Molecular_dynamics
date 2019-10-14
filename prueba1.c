@@ -32,17 +32,20 @@ int main(void)
     FILE * fp;
     FILE * fpos;
 
-    int i, j, it, ipx, ipy, ipz, tao;
-    double Fij[3], Fi[3], Ecin, Ui, r, Epot;
+    int i, j, it, ipx, ipy, ipz, tao, icero;
+    double Fij[3], Fi[3], Ecin, Ui, r, Epot, Ecinprom;
     double T_t, lambda, doubletao;
     double newrx[N],newry[N],newrz[N];
     double newvx[N],newvy[N],newvz[N];
-    tao = 80.0;
+    tao = 40.0;
     doubletao = (double)tao*dt;
     iniciales();
     printf("%e,%e,%e,%e",rx[0], rx[1], rx[2], rx[3]);
     fp = fopen ("./temp2_8p.txt","w");
     fpos = fopen ("./pos.txt","w");
+
+    Ecinprom = 0.0;
+    icero = 6000;
     for (it=1; it<Nt; it++)
     {
         Ecin = 0.0;
@@ -111,6 +114,10 @@ int main(void)
         if (newrz[i]> L) newrz[i] = newrz[i] - L ;
 
         fprintf (fp,"%i,%e,%e,%e\n",it,Ecin,Epot,Ecin+Epot);
+        if (it>icero)
+        {
+            Ecinprom = Ecinprom + Ecin;
+        }
         /*printf ("%i,%e,%e,%e\n",it,Ecin,Epot,Ecin+Epot);*/
         /*Actualizar ahora sí las variables*/
         for (i=0; i<N; i++)
@@ -124,6 +131,8 @@ int main(void)
         }
         fprintf (fpos,"%i,%e,%e,%e\n",it,rx[1],ry[1],rz[1]);
     }
+    Ecinprom = Ecinprom/((double)(Nt-icero));
+    printf("%e", Ecinprom);
     fclose (fp);
     fclose (fpos);
     return(1);
