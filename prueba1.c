@@ -4,7 +4,7 @@
 /*Meta-Constantes*/
 #define N 64
 #define NL 4
-#define Nt 10000
+#define Nt 20000
 #define L 20
 
 /*Declaracion de variables*/
@@ -37,17 +37,17 @@ int main(void)
     double T_t, lambda, doubletao;
     double newrx[N],newry[N],newrz[N];
     double newvx[N],newvy[N],newvz[N];
-    tao = 40.0;
+    tao = 20.0;
     doubletao = (double)tao*dt;
     iniciales();
-    printf("%e,%e,%e,%e",rx[0], rx[1], rx[2], rx[3]);
-    fp = fopen ("./temp2_8p.txt","w");
+    fp = fopen ("./temp2_64p.txt","w");
     fpos = fopen ("./pos.txt","w");
 
     Ecinprom = 0.0;
     icero = 6000;
     for (it=1; it<Nt; it++)
     {
+        printf("%i\n",it);
         Ecin = 0.0;
         Epot = 0.0;
         for (i=0; i<N; i++)
@@ -64,7 +64,7 @@ int main(void)
                         for(ipz= -1; ipz <=1; ipz++)
                             for (j=0; j<N; j++)
                             {
-                                if (j!=i)
+                                if (!((ipx==0 && ipy==0 && ipz==0)&&(j==i)))
                                 {
                                     /*calcular fuerza*/
                                     r = sqrt((rx[j] + ipx*L - rx[i])*(rx[j] + ipx*L - rx[i]) + (ry[j] + ipy*L - ry[i])*(ry[j] + ipy*L - ry[i]) + (rz[j] + ipz*L - rz[i])*(rz[j] + ipz*L - rz[i]));
