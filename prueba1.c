@@ -4,11 +4,11 @@
 /*Meta-Constantes*/
 #define N 64
 #define NL 4
-#define Nt 20000
-#define L 20
+#define Nt 10000
+#define L 15.26548385700747
 
 /*Declaracion de variables*/
-double T = 300.0;
+double T = 100.0;
 double dt = 0.001; /*en picosegundos*/
 double mass = 39.948; /*en umas*/
 double rx[N], ry[N], rz[N];
@@ -16,10 +16,10 @@ double vx[N], vy[N], vz[N];
 
 /*Valores del potencial*/
 double sigma = 3.4;/*Unidades de longitud en Angstroms*/
-double epsilon = 1.65E-21 / 1.66E-23; /*en joules, pero no es la unidad que necesitamos, la que queremos seria dividir entre 1.66x10^-23*/
+double epsilon = 99.3975903614458; /*1.65E-21 / 1.66E-23 en joules, pero no es la unidad que necesitamos, la que queremos seria dividir entre 1.66x10^-23*/
 
 /*Constante de boltzman*/
-double KB = 1.3806E-23/1.66E-23;
+double KB = 0.8316867469879518; /*1.3806E-23/1.66E-23;*/
 
 /*Declaracion de funciones*/
 double Upot(double r);
@@ -37,10 +37,10 @@ int main(void)
     double T_t, lambda, doubletao;
     double newrx[N],newry[N],newrz[N];
     double newvx[N],newvy[N],newvz[N];
-    tao = 20.0;
+    tao = 10.0;
     doubletao = (double)tao*dt;
     iniciales();
-    fp = fopen ("./temp2_64p.txt","w");
+    fp = fopen ("./MD_64p_T100_tao10.txt","w");
     fpos = fopen ("./pos.txt","w");
 
     Ecinprom = 0.0;
