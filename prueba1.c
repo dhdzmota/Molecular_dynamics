@@ -4,7 +4,7 @@
 /*Meta-Constantes*/
 #define N 64
 #define NL 4
-#define Nt 10000
+#define Nt 20000
 #define L 15.26548385700747
 
 /*Declaracion de variables*/
@@ -40,7 +40,7 @@ int main(void)
     tao = 10.0;
     doubletao = (double)tao*dt;
     iniciales();
-    fp = fopen ("./MD_64p_T100_tao10.txt","w");
+    fp = fopen ("./MD_64p_T100_tao10_time2.txt","w");
     fpos = fopen ("./pos.txt","w");
 
     Ecinprom = 0.0;
